@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
         {
             playerPaddle.MovePosition(playerPaddle.position + Vector2.down * speed * Time.fixedDeltaTime);
         }
+        else 
+        {
+            playerPaddle.velocity = Vector2.zero;
+        }
 
     }
 }

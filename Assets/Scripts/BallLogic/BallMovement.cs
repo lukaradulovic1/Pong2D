@@ -5,13 +5,17 @@ using UnityEngine;
 public class BallMovement : MonoBehaviour
 {
     public float speed = 10.0f;
-    public Rigidbody2D ball;
-    private GameMode GameMode { get; set; }
+    private Ball ball;
+    private void Awake()
+    {
+        ball = GetComponent<Ball>();
+    }
     private void SpeedIncreasePrint()
     {
         Debug.Log("5 seconds passed, speed increased");
     }
 
+ 
 
     public void StartBall()
     {
@@ -28,19 +32,19 @@ public class BallMovement : MonoBehaviour
 
     private void SetVelocity(Vector2 startDirection)
     {
-        ball.velocity = startDirection.normalized * speed;
+        ball.RigidBody.velocity = startDirection.normalized * speed;
     }
 
     public void IncreaseSpeed(float amount)
     {
         speed += amount;
-        ball.velocity = ball.velocity.normalized * speed;
-        SpeedIncreasePrint();
+        ball.RigidBody.velocity = ball.RigidBody.velocity.normalized * speed;
+        //SpeedIncreasePrint();
     }
 
     private void ChangeDirectionRandomly()
     {
-        var velocity = ball.velocity.normalized;
+        var velocity = ball.RigidBody.velocity.normalized;
         if (Mathf.Abs(velocity.x) < 0.2f)
         {
             velocity.x = Random.Range(-2f, 2f);
@@ -49,7 +53,7 @@ public class BallMovement : MonoBehaviour
         {
             velocity.y = Random.Range(-2f, 2f);
         }
-        ball.velocity = velocity.normalized * speed;
+        ball.RigidBody.velocity = velocity.normalized * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -61,14 +65,11 @@ public class BallMovement : MonoBehaviour
 
         if (collision.gameObject.CompareTag("RightWall"))
         {
-            GameManager.Instance.ScorePointForPlayer();
-            //ChangeDirectionRandomly();
+            GameManager.Instance.pointScoring.ScorePointForPlayer(ball);
         }
         if (collision.gameObject.CompareTag("LeftWall"))
         {
-            GameManager.Instance.ScorePointForOpponent();
-            //ChangeDirectionRandomly();
-
+            GameManager.Instance.pointScoring.ScorePointForOpponent(ball);
         }
         if (collision.gameObject.CompareTag("TopWall"))
         {
@@ -78,6 +79,20 @@ public class BallMovement : MonoBehaviour
         {
             ChangeDirectionRandomly();
         }
+    }
 
+    public void StartMultipleBall()
+    {
+        float x = Random.Range(-1f, 1f);
+        float y = Random.Range(0.5f, 1f);
+
+        if (Random.value < 0.5f)
+        {
+            y *= -1;
+        }
+
+        Vector2 direction = new Vector2(x, y).normalized;
+
+        SetVelocity(direction);
     }
 }

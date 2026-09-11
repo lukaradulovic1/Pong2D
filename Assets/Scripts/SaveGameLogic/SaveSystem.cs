@@ -9,7 +9,7 @@ public static class SaveSystem
         GameData data = new GameData(
             player.position,
             opponent.position,
-            ball.position,
+            ball.Position,
             player.score,
             opponent.score
         );

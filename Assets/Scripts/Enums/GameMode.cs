@@ -7,5 +7,5 @@ public enum GameMode
     Normal = 1,
     SpeedUp = 2,
     MultipleBalls = 3,
-    TopScore = 4
+    FirstTo15Points = 4
 }

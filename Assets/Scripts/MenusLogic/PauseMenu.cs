@@ -19,6 +19,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("ESC - GameIsPaused: " + GameIsPaused);
             if (GameIsPaused)
             {
                 Resume();
@@ -34,16 +35,17 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        Debug.Log("RESUME");
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
         audioManager.audioMusic.Play();
-        Debug.Log("hit");
+        Debug.Log("GameIsPaused AFTER RESUME = " + GameIsPaused);
     }
 
     public void Pause()
     {
-        Debug.Log("hit");
+        Debug.Log("PAUSE");
 
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
@@ -65,8 +67,8 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("hit");
     }
 
-    public void SaveAndQuit()
-    {
-       GameManager.Instance.SaveAndQuit();
-    }
+    //public void SaveAndQuit()
+    //{
+    //   GameManager.Instance.SaveAndQuit();
+    //}
 }
